@@ -74,7 +74,7 @@ public class Robot extends TimedRobot {
 	public void autonomousPeriodic() {
 		switch (m_autoSelected) {
 			case kCustomAuto:
-				// Put custom auto code here or dont
+				// Put custom auto code here or dont!
 				break;
 			case kDefaultAuto:
 			default:
