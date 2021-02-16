@@ -23,6 +23,8 @@ public class RomiDrivetrain {
 	private final Encoder m_leftEncoder = new Encoder(4, 5);
 	private final Encoder m_rightEncoder = new Encoder(6, 7);
 
+	private final RomiGyro m_gyro = new RomiGyro();
+
 	// Set up the differential drive controller
 	private final DifferentialDrive m_diffDrive = new DifferentialDrive(m_leftMotor, m_rightMotor);
 
@@ -32,6 +34,7 @@ public class RomiDrivetrain {
 		m_leftEncoder.setDistancePerPulse((Math.PI * kWheelDiameterInch) / kCountsPerRevolution);
 		m_rightEncoder.setDistancePerPulse((Math.PI * kWheelDiameterInch) / kCountsPerRevolution);
 		resetEncoders();
+		m_gyro.reset();
 	}
 
 	public void arcadeDrive(double xaxisSpeed, double zaxisRotate) {
@@ -49,5 +52,9 @@ public class RomiDrivetrain {
 
 	public double getRightDistanceInch() {
 		return m_rightEncoder.getDistance();
+	}
+
+	public double getAngle() {
+		return m_gyro.getAngleZ();
 	}
 }
