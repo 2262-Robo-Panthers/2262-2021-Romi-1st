@@ -104,6 +104,6 @@ public class RobotContainer {
 	}
 
 	public Command getTeleopCommand() {
-		return new DriveCommand(m_romiDrivetrain, m_joystick::getY, () -> m_joystick.getX());
+		return new DriveCommand(m_romiDrivetrain, () -> -m_joystick.getY(), m_joystick::getX);
 	}
 }
