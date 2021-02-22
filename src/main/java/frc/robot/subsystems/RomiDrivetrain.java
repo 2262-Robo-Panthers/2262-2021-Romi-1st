@@ -50,8 +50,8 @@ public class RomiDrivetrain extends SubsystemBase {
 		SmartDashboard.putData("field", m_field);
 	}
 
-	public void arcadeDrive(double xaxisSpeed, double zaxisRotate) {
-		m_diffDrive.arcadeDrive(xaxisSpeed, zaxisRotate);
+	public void curvatureDrive(double xaxisSpeed, double zaxisRotate, boolean isQuickTurn) {
+		m_diffDrive.curvatureDrive(xaxisSpeed, zaxisRotate, isQuickTurn);
 	}
 
 	public void resetEncoders() {
