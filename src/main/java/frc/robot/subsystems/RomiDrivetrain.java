@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.sensors.RomiGyro;
 
 public class RomiDrivetrain extends SubsystemBase {
@@ -46,7 +47,7 @@ public class RomiDrivetrain extends SubsystemBase {
 		m_rightEncoder.setDistancePerPulse((Math.PI * kWheelDiameterMeter) / kCountsPerRevolution);
 		resetEncoders();
 
-		m_odometry = new DifferentialDriveOdometry(getRotation2d());
+		m_odometry = new DifferentialDriveOdometry(getRotation2d(), Constants.kInitialPose);
 		SmartDashboard.putData("field", m_field);
 	}
 

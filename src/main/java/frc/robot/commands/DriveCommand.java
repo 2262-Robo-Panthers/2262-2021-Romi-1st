@@ -45,8 +45,10 @@ public class DriveCommand extends CommandBase {
 		// final double scaling_factor = Math.max(1.0, Math.max(Math.abs(leftVel), Math.abs(rightVel)));
 		// m_drivetrain.tankDriveVolts(leftVel / scaling_factor * 12, rightVel / scaling_factor * 12);
 
+		final boolean isQuickTurn = m_quickTurnSupplier.getAsBoolean();
+		final double rotate = m_rotateSupplier.getAsDouble();
 		m_drivetrain.curvatureDrive(
-			m_speedSupplier.getAsDouble(), m_rotateSupplier.getAsDouble(), m_quickTurnSupplier.getAsBoolean());
+			m_speedSupplier.getAsDouble(), isQuickTurn ? rotate / 2.0 : rotate, isQuickTurn);
 	}
 
 	// Called once the command ends or is interrupted.

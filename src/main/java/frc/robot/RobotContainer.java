@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.RamseteController;
-import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
@@ -57,7 +56,7 @@ public class RobotContainer {
 		// If you would like to specify coordinates in inches (which might be easier
 		// to deal with for the Romi), you can use the Units.inchesToMeters() method
 		Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
-			new Pose2d(), Constants.kInteriorWaypoints, Constants.kEndPose, config);
+			Constants.kInitialPose, Constants.kInteriorWaypoints, Constants.kEndPose, config);
 
 		RamseteCommand ramseteCommand = new RamseteCommand(
 			exampleTrajectory,
@@ -104,6 +103,7 @@ public class RobotContainer {
 	}
 
 	public Command getTeleopCommand() {
-		return new DriveCommand(m_romiDrivetrain, () -> -m_joystick.getY(), m_joystick::getX, m_joystick::getTrigger);
+		return new InstantCommand(() -> m_romiDrivetrain.resetOdometry(Constants.kInitialPose), m_romiDrivetrain)
+			.andThen(new DriveCommand(m_romiDrivetrain, () -> -m_joystick.getY(), m_joystick::getX, m_joystick::getTrigger));
 	}
 }
