@@ -40,14 +40,14 @@ public final class Constants {
 	public static final double kMaxSpeedMetersPerSecond = 0.8;
 	public static final double kMaxAccelerationMetersPerSecondSquared = 0.8;
 
-	public static final Pose2d kInitialPose = new Pose2d(0.34, 0.12, new Rotation2d());
+	public static final Pose2d kInitialPose = new Pose2d(0.3429, 0.11938, new Rotation2d());
 	public static final List<Translation2d> kInteriorWaypoints = List.of(
-		new Translation2d(0.69, 0.27),
-		new Translation2d(0.66, 0.62),
-		new Translation2d(0.19, 0.37),
-		new Translation2d(0.09, 0.72)
+		new Translation2d(0.6929, 0.26938),
+		new Translation2d(0.6629, 0.61938),
+		new Translation2d(0.1929, 0.36938),
+		new Translation2d(0.0929, 0.71938)
 	);
-	public static final Pose2d kEndPose = new Pose2d(0.74, 0.67, new Rotation2d());
+	public static final Pose2d kEndPose = new Pose2d(0.7429, 0.66938, new Rotation2d());
 
 	// Reasonable baseline values for a RAMSETE follower in units of meters and
 	// seconds
