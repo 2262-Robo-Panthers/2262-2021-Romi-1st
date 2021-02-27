@@ -5,8 +5,8 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.RamseteController;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
@@ -30,7 +30,7 @@ public class RobotContainer {
 	// The robot's subsystems and commands are defined here...
 	private final RomiDrivetrain m_romiDrivetrain = new RomiDrivetrain();
 
-	private final Joystick m_joystick = new Joystick(0);
+	private final XboxController m_controller = new XboxController(0);
 
 	/**
 	 * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -104,6 +104,6 @@ public class RobotContainer {
 
 	public Command getTeleopCommand() {
 		return new InstantCommand(() -> m_romiDrivetrain.resetOdometry(Constants.kInitialPose), m_romiDrivetrain)
-			.andThen(new DriveCommand(m_romiDrivetrain, () -> -m_joystick.getY(), m_joystick::getX, m_joystick::getTrigger));
+			.andThen(new DriveCommand(m_romiDrivetrain, () -> -m_controller.getRawAxis(1), () -> m_controller.getRawAxis(2), () -> m_controller.getBumper(Hand.kRight)));
 	}
 }
