@@ -185,12 +185,13 @@ public class Motor {
         }
 
         if(currentRunMode == RunMode.RUN_WITH_ENCODER){
-            if(encoder != null) encoder.updateVelocity();
-            motorDriver.set(motorPIDController.calculate(encoder.getVelocity()));
+            if(encoder != null){ 
+                encoder.updateVelocity();
+                motorDriver.set(motorPIDController.calculate(encoder.getVelocity()));
+            }
         }
         else if(currentRunMode == RunMode.RUN_TO_POSITON){
-            if(encoder != null) encoder.updateVelocity();
-            motorDriver.set(Util.clamp((float)motorPIDController.calculate(encoder.get()), (float)Math.abs(targetPow)));
+            if(encoder != null) motorDriver.set(Util.clamp((float)motorPIDController.calculate(encoder.get()), (float)Math.abs(targetPow)));
         }
     }
 }//runs the motor
