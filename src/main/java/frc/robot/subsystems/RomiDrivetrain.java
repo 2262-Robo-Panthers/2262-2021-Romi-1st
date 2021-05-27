@@ -4,7 +4,9 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.PWM;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
@@ -25,6 +27,7 @@ public class RomiDrivetrain extends SubsystemBase {
 	// PWM channels 0 and 1 respectively
 	private final Spark m_leftMotor = new Spark(0);
 	private final Spark m_rightMotor = new Spark(1);
+	private final PWM m_doorMotor = new PWM(2);
 
 	// The Romi has onboard encoders that are hardcoded
 	// to use DIO pins 4/5 and 6/7 for the left and right
@@ -98,6 +101,10 @@ public class RomiDrivetrain extends SubsystemBase {
 		m_rightMotor.setVoltage(-rightVolts);
 		m_diffDrive.feed();
 	}
+	public void SpinDoor(double rate) {
+		m_doorMotor.setSpeed(rate);
+		//System.out.println(rate);
+	}
 
 	@Override
 	public void periodic() {
@@ -105,6 +112,8 @@ public class RomiDrivetrain extends SubsystemBase {
 		m_odometry.update(getRotation2d(), getLeftDistanceMeter(), getRightDistanceMeter());
 
 		m_field.setRobotPose(getPose());
+
+
 	}
 
 	@Override

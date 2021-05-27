@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.RamseteController;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
@@ -16,6 +17,7 @@ import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConst
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.commands.DriveCommand;
 import frc.robot.subsystems.RomiDrivetrain;
 
@@ -30,7 +32,7 @@ public class RobotContainer {
 	// The robot's subsystems and commands are defined here...
 	private final RomiDrivetrain m_romiDrivetrain = new RomiDrivetrain();
 
-	private final Joystick m_joystick = new Joystick(0);
+	final XboxController m_joystick = new XboxController(0);
 
 	/**
 	 * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -103,7 +105,11 @@ public class RobotContainer {
 	}
 
 	public Command getTeleopCommand() {
+		// double doorSpeed = 0;
+		// if (m_joystick.getAButton()) doorSpeed = 1;
+		// else if (m_joystick.getXButton()) doorSpeed = -1;
+	
 		return new InstantCommand(() -> m_romiDrivetrain.resetOdometry(Constants.kInitialPose), m_romiDrivetrain)
-			.andThen(new DriveCommand(m_romiDrivetrain, () -> -m_joystick.getY(), m_joystick::getX, m_joystick::getTrigger));
+			.andThen(new DriveCommand(m_romiDrivetrain, () -> -m_joystick.getY(Hand.kLeft), () -> m_joystick.getX(Hand.kRight),() -> (m_joystick.getAButton()) ? 1 : (m_joystick.getXButton()) ? -1 : 0, () -> m_joystick.getBumper(Hand.kRight)));
 	}
 }

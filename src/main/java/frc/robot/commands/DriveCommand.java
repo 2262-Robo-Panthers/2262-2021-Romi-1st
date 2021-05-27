@@ -16,14 +16,16 @@ public class DriveCommand extends CommandBase {
 
 	private final DoubleSupplier m_speedSupplier;
 	private final DoubleSupplier m_rotateSupplier;
+	private final DoubleSupplier m_doorSpeed;
 	private final BooleanSupplier m_quickTurnSupplier;
 
 	/** Creates a new DriveCommand. */
-	public DriveCommand(RomiDrivetrain drivetrain, DoubleSupplier speedSupplier, DoubleSupplier rotateSupplier,
+	public DriveCommand(RomiDrivetrain drivetrain, DoubleSupplier speedSupplier, DoubleSupplier rotateSupplier, DoubleSupplier doorSpeed,
 			BooleanSupplier quickTurnSupplier) {
 		m_drivetrain = drivetrain;
 		m_speedSupplier = speedSupplier;
 		m_rotateSupplier = rotateSupplier;
+		m_doorSpeed = doorSpeed;
 		m_quickTurnSupplier = quickTurnSupplier;
 		addRequirements(m_drivetrain);
 	}
@@ -49,6 +51,8 @@ public class DriveCommand extends CommandBase {
 		final double rotate = m_rotateSupplier.getAsDouble();
 		m_drivetrain.curvatureDrive(
 			m_speedSupplier.getAsDouble(), isQuickTurn ? rotate / 2.0 : rotate, isQuickTurn);
+		m_drivetrain.SpinDoor(m_doorSpeed.getAsDouble());
+		
 	}
 
 	// Called once the command ends or is interrupted.
