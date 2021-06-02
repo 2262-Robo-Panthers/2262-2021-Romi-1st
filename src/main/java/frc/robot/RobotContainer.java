@@ -110,6 +110,6 @@ public class RobotContainer {
 		// else if (m_joystick.getXButton()) doorSpeed = -1;
 	
 		return new InstantCommand(() -> m_romiDrivetrain.resetOdometry(Constants.kInitialPose), m_romiDrivetrain)
-			.andThen(new DriveCommand(m_romiDrivetrain, () -> -m_joystick.getY(Hand.kLeft), () -> m_joystick.getX(Hand.kRight),() -> (m_joystick.getAButton()) ? 1 : (m_joystick.getXButton()) ? -1 : 0, () -> m_joystick.getBumper(Hand.kRight)));
+			.andThen(new DriveCommand(m_romiDrivetrain, () -> -m_joystick.getY(Hand.kLeft), () -> m_joystick.getX(Hand.kRight),() -> (m_joystick.getBumper(Hand.kLeft)) ? .1 : -0.9, () -> true));//m_joystick.getBumper(Hand.kRight)));
 	}
 }
