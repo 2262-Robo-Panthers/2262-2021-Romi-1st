@@ -9,23 +9,29 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.RomiDrivetrain;
+import frc.robot.subsystems.RomiPositionTracking;
 
 public class DriveCommand extends CommandBase {
 
 	private final RomiDrivetrain m_drivetrain;
+	//private final RomiPositionTracking m_positionTracking;
 
 	private final DoubleSupplier m_speedSupplier;
 	private final DoubleSupplier m_rotateSupplier;
+	private final DoubleSupplier m_doorSpeed;
 	private final BooleanSupplier m_quickTurnSupplier;
 
 	/** Creates a new DriveCommand. */
-	public DriveCommand(RomiDrivetrain drivetrain, DoubleSupplier speedSupplier, DoubleSupplier rotateSupplier,
+	public DriveCommand(RomiDrivetrain drivetrain, DoubleSupplier speedSupplier, DoubleSupplier rotateSupplier, DoubleSupplier doorSpeed,
 			BooleanSupplier quickTurnSupplier) {
 		m_drivetrain = drivetrain;
+		//m_positionTracking = positionTracking;
 		m_speedSupplier = speedSupplier;
 		m_rotateSupplier = rotateSupplier;
+		m_doorSpeed = doorSpeed;
 		m_quickTurnSupplier = quickTurnSupplier;
 		addRequirements(m_drivetrain);
+		//addRequirements(m_positionTracking);
 	}
 
 	// Called when the command is initially scheduled.
@@ -49,6 +55,7 @@ public class DriveCommand extends CommandBase {
 		final double rotate = m_rotateSupplier.getAsDouble();
 		m_drivetrain.curvatureDrive(
 			m_speedSupplier.getAsDouble(), isQuickTurn ? rotate / 2.0 : rotate, isQuickTurn);
+		m_drivetrain.SpinDoor(m_doorSpeed.getAsDouble());
 	}
 
 	// Called once the command ends or is interrupted.

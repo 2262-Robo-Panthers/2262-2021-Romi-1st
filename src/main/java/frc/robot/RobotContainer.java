@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import frc.robot.commands.DriveCommand;
 import frc.robot.subsystems.RomiDrivetrain;
+import frc.robot.subsystems.RomiPositionTracking;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -29,8 +30,9 @@ import frc.robot.subsystems.RomiDrivetrain;
 public class RobotContainer {
 	// The robot's subsystems and commands are defined here...
 	private final RomiDrivetrain m_romiDrivetrain = new RomiDrivetrain();
+	private final RomiPositionTracking m_romiPositionTracking = new RomiPositionTracking();
 
-	private final XboxController m_controller = new XboxController(0);
+	final XboxController m_joystick = new XboxController(0);
 
 	/**
 	 * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -60,21 +62,21 @@ public class RobotContainer {
 
 		RamseteCommand ramseteCommand = new RamseteCommand(
 			exampleTrajectory,
-			m_romiDrivetrain::getPose,
+			m_romiPositionTracking::getPose,
 			new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
 			Constants.kDriveFeedforward,
 			Constants.kDriveKinematics,
-			m_romiDrivetrain::getWheelSpeeds,
+			m_romiPositionTracking::getWheelSpeeds,
 			new PIDController(Constants.kPDriveVel, Constants.kIDriveVel, Constants.kDDriveVel),
 			new PIDController(Constants.kPDriveVel, Constants.kIDriveVel, Constants.kDDriveVel),
 			m_romiDrivetrain::tankDriveVolts,
 			m_romiDrivetrain);
 
-		m_romiDrivetrain.resetOdometry(exampleTrajectory.getInitialPose());
+		m_romiPositionTracking.resetOdometry(exampleTrajectory.getInitialPose());
 
 		// Set up a sequence of commands
 		// First, we want to reset the drivetrain odometry
-		return new InstantCommand(() -> m_romiDrivetrain.resetOdometry(exampleTrajectory.getInitialPose()), m_romiDrivetrain)
+		return new InstantCommand(() -> m_romiPositionTracking.resetOdometry(exampleTrajectory.getInitialPose()), m_romiDrivetrain)
 			// next, we run the actual ramsete command
 			.andThen(ramseteCommand)
 
@@ -103,7 +105,7 @@ public class RobotContainer {
 	}
 
 	public Command getTeleopCommand() {
-		return new InstantCommand(() -> m_romiDrivetrain.resetOdometry(Constants.kInitialPose), m_romiDrivetrain)
-			.andThen(new DriveCommand(m_romiDrivetrain, () -> -m_controller.getRawAxis(1), () -> m_controller.getRawAxis(2), () -> m_controller.getBumper(Hand.kRight)));
+		return new InstantCommand(() -> m_romiPositionTracking.resetOdometry(Constants.kInitialPose), m_romiDrivetrain)
+			.andThen(new DriveCommand(m_romiDrivetrain, () -> -m_joystick.getY(Hand.kLeft), () -> m_joystick.getX(Hand.kRight),() -> (m_joystick.getBumper(Hand.kLeft)) ? .1 : -0.9, () -> true));//m_joystick.getBumper(Hand.kRight)));
 	}
 }
